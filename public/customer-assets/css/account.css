@@ -1,0 +1,919 @@
+/* ========================================
+   CUSTOMER ACCOUNT PAGE STYLES
+   Hybrid Design: Admin Polish + Homepage Warmth
+   Version: 1.0
+   Last Updated: 2025-12-26
+   ======================================== */
+
+/* ========================================
+   1. CSS VARIABLES
+   ======================================== */
+:root {
+  /* Colors - Homepage (Customer-Friendly) */
+  --primary: #007bff;
+  --success: #28a745;
+  --success-refined: #1cc88a;
+  --warning: #ffc107;
+  --warning-refined: #f6c23e;
+  --danger: #e74a3b;
+  --gray: #6c757d;
+  --gray-dark: #32325d;
+  --gray-medium: #8898aa;
+  --text-primary: #364d59;
+  --text-muted: #8898aa;
+  --bg-light: #f6f5f5;
+  --bg-card: #f8f9fa;
+
+  /* Spacing */
+  --card-padding: 24px;
+  --card-margin: 24px;
+  --section-spacing: 40px;
+
+  /* Shadows - Admin Inspired */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 8px 15px rgba(0, 0, 0, 0.08);
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Transitions */
+  --transition-base: all 0.2s ease;
+}
+
+/* ========================================
+   2. GLOBAL ACCOUNT PAGE STYLES
+   ======================================== */
+.account-page-container {
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+
+/* ========================================
+   3. USER PROFILE CARD
+   ======================================== */
+.account-user-profile {
+  text-align: center;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #f0f0f0;
+  position: relative;
+}
+
+.account-user-avatar {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  transition: var(--transition-base);
+}
+
+.account-user-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.account-user-avatar i {
+  font-size: 50px;
+  color: #ffffff;
+}
+
+.account-user-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+
+.account-member-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: linear-gradient(135deg, #f6f5f5 0%, #e9ecef 100%);
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.account-member-badge i {
+  margin-right: 6px;
+  font-size: 0.7rem;
+}
+
+/* ========================================
+   4. DASHBOARD SIDEBAR
+   ======================================== */
+.dashboard-sidebar {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition: var(--transition-base);
+}
+
+.dashboard-sidebar:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.dashboard-sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #007bff 0%, #667eea 100%);
+  border-radius: 16px 16px 0 0;
+}
+
+/* ========================================
+   5. TAB NAVIGATION
+   ======================================== */
+.nav-pills .nav-link {
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  transition: var(--transition-base);
+  font-weight: 600;
+  font-size: 0.95rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+}
+
+.nav-pills .nav-link i {
+  margin-right: 12px;
+  font-size: 1.1rem;
+  transition: var(--transition-base);
+}
+
+.nav-pills .nav-link:hover {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: var(--primary);
+  border-color: rgba(0, 123, 255, 0.1);
+  transform: translateX(4px);
+}
+
+.nav-pills .nav-link:hover i {
+  transform: scale(1.1);
+}
+
+.nav-pills .nav-link.active {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+  border-color: transparent;
+  transform: translateX(0);
+}
+
+.nav-pills .nav-link.active i {
+  transform: scale(1);
+}
+
+.nav-pills .nav-link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+  background: #ffffff;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Focus states for accessibility */
+.nav-pills .nav-link:focus {
+  outline: 3px solid rgba(0, 123, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   6. SECTION HEADERS
+   ======================================== */
+.account-section-header {
+  margin-bottom: 30px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f0f0f0;
+  position: relative;
+}
+
+.account-section-header h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0;
+  letter-spacing: -0.03em;
+}
+
+.account-section-header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, #007bff 0%, #667eea 100%);
+}
+
+/* ========================================
+   7. BOOKING CARDS
+   ======================================== */
+
+/* 7.1 Card Container */
+.booking-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: var(--card-margin);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-base);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  position: relative;
+}
+
+.booking-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* 7.2 Image Section */
+.booking-card-image {
+  position: relative;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.booking-card-image img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.booking-card:hover .booking-card-image img {
+  transform: scale(1.05);
+}
+
+/* 7.3 Status Badges */
+.booking-status-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.status-confirmed {
+  background: rgba(40, 167, 69, 0.95);
+  color: #ffffff;
+}
+
+.status-pending {
+  background: rgba(255, 193, 7, 0.95);
+  color: #000000;
+}
+
+.status-completed {
+  background: rgba(108, 117, 125, 0.95);
+  color: #ffffff;
+}
+
+/* 7.4 Content Layout */
+.booking-card-content {
+  padding: var(--card-padding);
+}
+
+.booking-card-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.booking-id {
+  font-size: 0.85rem;
+  color: var(--gray-medium);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+
+/* 7.5 Details Grid */
+.booking-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 20px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.booking-detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-detail-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.booking-detail-label i {
+  margin-right: 6px;
+  font-size: 0.85rem;
+  color: var(--primary);
+}
+
+.booking-detail-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.booking-detail-sub {
+  font-size: 0.8rem;
+  color: var(--gray-medium);
+  margin-top: 2px;
+}
+
+/* Rental Duration Highlight */
+.booking-duration-highlight {
+  grid-column: span 2;
+  text-align: center;
+  padding: 12px;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: #ffffff;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.booking-duration-highlight .duration-days {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.booking-duration-highlight .duration-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+}
+
+/* 7.6 Price Display */
+.booking-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.booking-price-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-price-main {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.booking-price-breakdown {
+  font-size: 0.8rem;
+  color: var(--gray-medium);
+  font-weight: 600;
+}
+
+.booking-price-breakdown .price-rate {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+/* 7.7 Action Buttons */
+.booking-action-btn {
+  padding: 10px 24px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  transition: var(--transition-base);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 2px solid transparent;
+}
+
+.booking-action-btn.btn-outline-danger {
+  color: var(--danger);
+  border-color: var(--danger);
+  background: transparent;
+}
+
+.booking-action-btn.btn-outline-danger:hover {
+  background: var(--danger);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(231, 74, 59, 0.3);
+}
+
+.booking-action-btn.btn-primary {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  border-color: transparent;
+  color: #ffffff;
+}
+
+.booking-action-btn.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
+}
+
+.booking-action-btn:focus {
+  outline: 3px solid rgba(0, 123, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   8. EMPTY STATE
+   ======================================== */
+.booking-empty-state {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: var(--radius-lg);
+  padding: 60px 40px;
+  text-align: center;
+  border: 2px dashed rgba(0, 123, 255, 0.2);
+  transition: var(--transition-base);
+}
+
+.booking-empty-state:hover {
+  border-color: rgba(0, 123, 255, 0.4);
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+}
+
+.booking-empty-icon {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.booking-empty-icon i {
+  font-size: 50px;
+  color: var(--gray-medium);
+}
+
+.booking-empty-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.booking-empty-text {
+  font-size: 1rem;
+  color: var(--gray-medium);
+  margin-bottom: 24px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.booking-empty-cta {
+  padding: 14px 32px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  border: none;
+  color: #ffffff;
+  transition: var(--transition-base);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.booking-empty-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.booking-empty-cta:focus {
+  outline: 3px solid rgba(0, 123, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   9. REVIEWS SECTION
+   ======================================== */
+.review-container {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.review-item {
+  padding: 24px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--primary);
+  transition: var(--transition-base);
+}
+
+.review-item:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-sm);
+}
+
+.review-item:last-child {
+  margin-bottom: 0;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.review-car-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+}
+
+.review-rating i {
+  font-size: 1rem;
+  margin-left: 3px;
+}
+
+.review-rating .fas.fa-star {
+  color: #ffc107;
+}
+
+.review-rating .far.fa-star {
+  color: #dee2e6;
+}
+
+.review-date {
+  font-size: 0.8rem;
+  color: var(--gray-medium);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.review-date i {
+  margin-right: 6px;
+  font-size: 0.75rem;
+}
+
+.review-text {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin: 0;
+  font-style: italic;
+  position: relative;
+  padding-left: 20px;
+}
+
+.review-text::before {
+  content: '"';
+  position: absolute;
+  left: 0;
+  top: -5px;
+  font-size: 2rem;
+  color: var(--primary);
+  opacity: 0.3;
+  font-family: Georgia, serif;
+}
+
+/* ========================================
+   10. SETTINGS SECTION
+   ======================================== */
+.settings-container {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.settings-form-group {
+  margin-bottom: 24px;
+}
+
+.settings-form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.settings-form-label i {
+  margin-right: 8px;
+  font-size: 0.9rem;
+  color: var(--primary);
+}
+
+.settings-form-control {
+  border-radius: var(--radius-sm);
+  border: 2px solid #e9ecef;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: #f8f9fa;
+  transition: var(--transition-base);
+}
+
+.settings-form-control:focus {
+  border-color: var(--primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.settings-form-control[readonly] {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.settings-logout-btn {
+  padding: 14px 32px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #e74a3b 0%, #c0392b 100%);
+  border: none;
+  color: #ffffff;
+  transition: var(--transition-base);
+  box-shadow: 0 4px 12px rgba(231, 74, 59, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.settings-logout-btn i {
+  margin-right: 8px;
+}
+
+.settings-logout-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(231, 74, 59, 0.4);
+  background: linear-gradient(135deg, #c0392b 0%, #e74a3b 100%);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.settings-logout-btn:focus {
+  outline: 3px solid rgba(231, 74, 59, 0.5);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   11. RESPONSIVE DESIGN
+   ======================================== */
+
+/* Large Tablets and Below (991px) */
+@media (max-width: 991px) {
+  .dashboard-sidebar {
+    position: relative !important;
+    margin-bottom: 30px;
+  }
+
+  .account-user-avatar {
+    width: 70px;
+    height: 70px;
+  }
+
+  .account-user-avatar i {
+    font-size: 40px;
+  }
+
+  .booking-card-image img {
+    height: 200px;
+  }
+
+  .booking-details-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .booking-duration-highlight {
+    grid-column: span 1;
+  }
+
+  .booking-card-footer {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .booking-action-btn {
+    width: 100%;
+  }
+}
+
+/* Tablets and Below (767px) */
+@media (max-width: 767px) {
+  .booking-card .row {
+    flex-direction: column;
+  }
+
+  .booking-card-image {
+    width: 100%;
+  }
+
+  .booking-card-content {
+    padding: 20px;
+  }
+
+  .account-section-header h3 {
+    font-size: 1.5rem;
+  }
+
+  .nav-pills .nav-link {
+    justify-content: flex-start;
+  }
+}
+
+/* Mobile (576px and Below) */
+@media (max-width: 576px) {
+  :root {
+    --card-padding: 16px;
+    --card-margin: 16px;
+  }
+
+  .booking-card-title {
+    font-size: 1.15rem;
+  }
+
+  .booking-price-main {
+    font-size: 1.5rem;
+  }
+
+  .booking-empty-state {
+    padding: 40px 20px;
+  }
+
+  .account-section-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .nav-pills .nav-link {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+
+  .booking-details-grid {
+    padding: 16px;
+  }
+}
+
+/* ========================================
+   REVIEW MODAL STYLES
+   ======================================== */
+
+/* Star Rating Input */
+.star-rating-input {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 5px;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.star-rating-input input[type="radio"] {
+  display: none;
+}
+
+.star-rating-input label {
+  cursor: pointer;
+  color: #ddd;
+  transition: color 0.2s ease;
+}
+
+.star-rating-input label:hover,
+.star-rating-input label:hover ~ label,
+.star-rating-input input[type="radio"]:checked ~ label,
+.star-rating-input label.selected {
+  color: #ffc107;
+}
+
+.star-rating-input label:hover {
+  transform: scale(1.1);
+}
+
+/* Review Modal Customization */
+#reviewModal .modal-content {
+  border-radius: var(--radius-lg);
+  border: none;
+  box-shadow: var(--shadow-lg);
+}
+
+#reviewModal .modal-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  border-bottom: none;
+}
+
+#reviewModal .modal-title {
+  font-weight: 600;
+}
+
+#reviewModal .close {
+  color: white;
+  opacity: 0.8;
+  text-shadow: none;
+}
+
+#reviewModal .close:hover {
+  opacity: 1;
+  color: white;
+}
+
+#reviewModal textarea {
+  border-radius: var(--radius-sm);
+  border: 1px solid #e0e0e0;
+  transition: var(--transition-base);
+}
+
+#reviewModal textarea:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+}
+
+#charCount.text-success {
+  font-weight: 600;
+}
+
+#charCount.text-danger {
+  font-weight: 600;
+}
+
+/* Review Button States */
+.booking-action-btn.btn-success[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

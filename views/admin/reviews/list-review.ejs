@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/header-sidebar') %>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <%- include('../partials/topbar') %>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">
+                            <%= title %>
+                        </h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Total Reviews Card -->
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card stats-card border-left-primary h-100 py-2">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <p class="card-label mb-1">Total Reviews</p>
+                                            <h2 class="card-value"><%= reviews.length %></h2>
+                                        </div>
+                                        <div class="col-auto icon-box icon-box-primary">
+                                            <i class="fas fa-star fa-2x text-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Approved Reviews Card -->
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card stats-card border-left-success h-100 py-2">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <p class="card-label mb-1">Approved</p>
+                                            <h2 class="card-value"><%= reviews.filter(r => r.status === 'approved').length %></h2>
+                                        </div>
+                                        <div class="col-auto icon-box icon-box-success">
+                                            <i class="fas fa-check-circle fa-2x text-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Reviews Card -->
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card stats-card border-left-warning h-100 py-2">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <p class="card-label mb-1">Pending</p>
+                                            <h2 class="card-value"><%= reviews.filter(r => r.status === 'pending').length %></h2>
+                                        </div>
+                                        <div class="col-auto icon-box icon-box-warning">
+                                            <i class="fas fa-clock fa-2x text-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Displayed on Main Card -->
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card stats-card border-left-info h-100 py-2">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <p class="card-label mb-1">Displayed</p>
+                                            <h2 class="card-value"><%= reviews.filter(r => r.isDisplayed).length %></h2>
+                                        </div>
+                                        <div class="col-auto icon-box icon-box-info">
+                                            <i class="fas fa-eye fa-2x text-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4 mt-4">
+                        <div class="card-body">
+                            <table class="modern-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer</th>
+                                        <th>Car</th>
+                                        <th>Rating</th>
+                                        <th>Comment</th>
+                                        <th>Status</th>
+                                        <th>Display</th>
+                                        <th>Date</th>
+                                        <th style="text-align: center;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% reviews.forEach(review => { %>
+                                        <tr>
+                                            <td class="col-id">#<%= review.id %></td>
+                                            <td><%= review.userName %></td>
+                                            <td>
+                                                <div>
+                                                    <span class="car-name-text"><%= review.carName %></span>
+                                                    <span class="car-meta-text">Booking #<%= review.bookingId %></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="rating-stars">
+                                                    <% for(let i = 1; i <= 5; i++) { %>
+                                                        <% if (i <= review.rating) { %>
+                                                            <i class="fas fa-star text-warning"></i>
+                                                        <% } else { %>
+                                                            <i class="far fa-star text-muted"></i>
+                                                        <% } %>
+                                                    <% } %>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div style="max-width: 250px;">
+                                                    <%= review.comment.substring(0, 60) %>...
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <% if (review.status === 'approved') { %>
+                                                    <span class="badge badge-available">Approved</span>
+                                                <% } else if (review.status === 'pending') { %>
+                                                    <span class="badge badge-maintenance">Pending</span>
+                                                <% } else if (review.status === 'rejected') { %>
+                                                    <span class="badge badge-rented">Rejected</span>
+                                                <% } %>
+                                            </td>
+                                            <td>
+                                                <% if (review.isDisplayed) { %>
+                                                    <span class="badge badge-success"><i class="fas fa-eye"></i> Shown</span>
+                                                <% } else { %>
+                                                    <span class="badge badge-secondary"><i class="fas fa-eye-slash"></i> Hidden</span>
+                                                <% } %>
+                                            </td>
+                                            <td><%= review.formattedCreatedAt %></td>
+                                            <td style="text-align: center;">
+                                                <% if (review.status === 'pending') { %>
+                                                    <a class="action-btn btn-approve" title="Approve"
+                                                        data-id="<%= review.id %>"><i
+                                                            class="fa-solid fa-check"></i></a>
+                                                    <a class="action-btn btn-reject" title="Reject"
+                                                        data-id="<%= review.id %>"><i
+                                                            class="fa-solid fa-times"></i></a>
+                                                <% } %>
+                                                <a class="action-btn btn-toggle" title="<%= review.isDisplayed ? 'Hide from Main Page' : 'Show on Main Page' %>"
+                                                    data-id="<%= review.id %>"
+                                                    data-displayed="<%= review.isDisplayed %>"><i
+                                                        class="fa-solid <%= review.isDisplayed ? 'fa-eye-slash' : 'fa-eye' %>"></i></a>
+                                                <a class="action-btn btn-delete" title="Delete"
+                                                    data-id="<%= review.id %>"
+                                                    data-customer="<%= review.userName %>"><i
+                                                        class="fa-solid fa-trash-can"></i></a>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.container-fluid -->
+                </div>
+        </div>
+        <!-- End of Main Content -->
+        <%- include('../partials/footer') %>
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <%- include('../partials/scripts.ejs') %>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteReviewModal" tabindex="-1" role="dialog" aria-labelledby="deleteReviewModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteReviewModalLabel">Delete Review</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete review from <strong id="customerName"></strong>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form id="deleteForm" method="POST" action="/admin/reviews/delete">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <input type="hidden" name="reviewId" id="reviewId">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Delete button handler
+            const deleteButtons = document.querySelectorAll('.btn-delete');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const reviewId = this.getAttribute('data-id');
+                    const customerName = this.getAttribute('data-customer');
+
+                    document.getElementById('reviewId').value = reviewId;
+                    document.getElementById('customerName').textContent = customerName;
+
+                    $('#deleteReviewModal').modal('show');
+                });
+            });
+
+            // Approve button handler
+            const approveButtons = document.querySelectorAll('.btn-approve');
+            approveButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const reviewId = this.getAttribute('data-id');
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/admin/reviews/approve';
+
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = '_csrf';
+                    csrfInput.value = '<%= csrfToken %>';
+
+                    const reviewIdInput = document.createElement('input');
+                    reviewIdInput.type = 'hidden';
+                    reviewIdInput.name = 'reviewId';
+                    reviewIdInput.value = reviewId;
+
+                    form.appendChild(csrfInput);
+                    form.appendChild(reviewIdInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                });
+            });
+
+            // Reject button handler
+            const rejectButtons = document.querySelectorAll('.btn-reject');
+            rejectButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const reviewId = this.getAttribute('data-id');
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/admin/reviews/reject';
+
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = '_csrf';
+                    csrfInput.value = '<%= csrfToken %>';
+
+                    const reviewIdInput = document.createElement('input');
+                    reviewIdInput.type = 'hidden';
+                    reviewIdInput.name = 'reviewId';
+                    reviewIdInput.value = reviewId;
+
+                    form.appendChild(csrfInput);
+                    form.appendChild(reviewIdInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                });
+            });
+
+            // Toggle display button handler
+            const toggleButtons = document.querySelectorAll('.btn-toggle');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const reviewId = this.getAttribute('data-id');
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/admin/reviews/toggle-display';
+
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = '_csrf';
+                    csrfInput.value = '<%= csrfToken %>';
+
+                    const reviewIdInput = document.createElement('input');
+                    reviewIdInput.type = 'hidden';
+                    reviewIdInput.name = 'reviewId';
+                    reviewIdInput.value = reviewId;
+
+                    form.appendChild(csrfInput);
+                    form.appendChild(reviewIdInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                });
+            });
+        });
+    </script>
+
+    </body>
+
+</html>

@@ -1,0 +1,154 @@
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Carago Dashboard</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/admin-assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/admin-assets/css/table.css">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">carago<sup>tm</sup></div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>
+                        Dashboard
+                    </span></a>
+            </li>
+            
+            <!-- Nav Item - Home Page -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/">
+                    <i class="fa-solid fa-house-chimney-user"></i>
+                    <span>
+                        Home Page
+                    </span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Interface
+            </div>
+
+            <!-- Nav Item - User Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser"
+                    aria-expanded="true" aria-controls="collapseUser" href="#">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Users</span>
+                </a>
+                <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/admin/users/list">User List</a>
+                        <a class="collapse-item" href="/admin/users/add">Add User</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Car Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCar"
+                    aria-expanded="true" aria-controls="collapseTwo" href="/admin/cars/">
+                    <i class="fa-solid fa-car-on"></i>
+                    <span>Cars</span>
+                </a>
+                <div id="collapseCar" class="collapse" aria-labelledby="headingCar" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/admin/cars/list">Car List</a>
+                        <a class="collapse-item" href="/admin/cars/add">Add Car</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Booking Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBooking"
+                    aria-expanded="true" aria-controls="collapseBooking">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <span>Booking</span>
+                </a>
+                <div id="collapseBooking" class="collapse" aria-labelledby="headingBooking"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/admin/bookings/list">Booking List</a>
+                        <a class="collapse-item" href="/admin/bookings/add">Add Booking</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Blogs Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBlog"
+                    aria-expanded="true" aria-controls="collapseBlog">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Blog</span>
+                </a>
+                <div id="collapseBlog" class="collapse" aria-labelledby="headingBlog"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/admin/blogs/list">Blog List</a>
+                        <a class="collapse-item" href="/admin/blogs/add">Add Blog</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Review Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReview"
+                    aria-expanded="true" aria-controls="collapseReview">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span>Review</span>
+                </a>
+                <div id="collapseReview" class="collapse" aria-labelledby="headingReview"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/admin/reviews/list">Review List</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->

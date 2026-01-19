@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+
+<%- include('./partials/head') %>
+
+  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+
+    <div class="site-wrap">
+
+      <div class="site-mobile-menu site-navbar-target">
+        <div class="site-mobile-menu-header">
+          <div class="site-mobile-menu-close mt-3">
+            <span class="icon-close2 js-menu-toggle"></span>
+          </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+      </div>
+
+      <%- include('./partials/cust-topbar') %>
+
+        <!-- Account Page -->
+        <div class="container account-page-container">
+          <div class="row">
+
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+              <div class="dashboard-sidebar">
+                <!-- User Profile -->
+                <div class="account-user-profile">
+                  <div class="account-user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                  </div>
+                  <h5 class="account-user-name">
+                    <%= user.firstName %> <%= user.lastName %>
+                  </h5>
+                  <div class="account-member-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    Member since Jan 2024
+                  </div>
+                </div>
+
+                <!-- Navigation Menu -->
+                <div class="nav flex-column nav-pills text-left mt-4" id="v-pills-tab" role="tablist"
+                  aria-orientation="vertical">
+                  <a class="nav-link active" id="v-pills-bookings-tab" data-toggle="pill" href="#v-pills-bookings"
+                    role="tab"><i class="fas fa-car mr-2"></i> My Bookings</a>
+                  <a class="nav-link" id="v-pills-reviews-tab" data-toggle="pill" href="#v-pills-reviews" role="tab"><i
+                      class="fas fa-star mr-2"></i> My Reviews</a>
+                  <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings"
+                    role="tab"><i class="fas fa-cog mr-2"></i> Settings</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9">
+              <div class="tab-content" id="v-pills-tabContent">
+
+                <!-- Success/Error Messages -->
+                <% if (successMessage) { %>
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> <%= successMessage %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <% } %>
+
+                <% if (errorMessage) { %>
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> <%= errorMessage %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <% } %>
+
+                <!-- My Bookings Tab -->
+                <div class="tab-pane fade show active" id="v-pills-bookings" role="tabpanel">
+                  <div class="account-section-header d-flex justify-content-between align-items-center">
+                    <h3>My Bookings</h3>
+                    <a href="/account/booking/create" class="btn btn-primary">
+                      <i class="fas fa-plus mr-2"></i>Add New Booking
+                    </a>
+                  </div>
+
+                  <% if (bookings.length === 0) { %>
+                    <div class="booking-empty-state">
+                      <div class="booking-empty-icon">
+                        <i class="fas fa-inbox"></i>
+                      </div>
+                      <h4 class="booking-empty-title">No Bookings Yet</h4>
+                      <p class="booking-empty-text">Start your journey by browsing our collection of premium vehicles.</p>
+                      <a href="/cars" class="btn booking-empty-cta">
+                        <i class="fas fa-car mr-2"></i>Browse Cars
+                      </a>
+                    </div>
+                  <% } else { %>
+                    <!-- Booking Cards -->
+                    <% bookings.forEach(booking => { %>
+                      <div class="booking-card">
+                        <div class="row no-gutters">
+                          <!-- Car Image -->
+                          <div class="col-md-4">
+                            <div class="booking-card-image">
+                              <img src="<%= booking.carImage %>"
+                                   alt="<%= booking.carBrand %> <%= booking.carModel %>"
+                                   onerror="this.onerror=null; this.src='/customer-assets/img/proton-x70.jpeg'">
+                              <% if (booking.status === 'Approved') { %>
+                                <span class="booking-status-badge status-confirmed">Confirmed</span>
+                              <% } else if (booking.status === 'Pending') { %>
+                                <span class="booking-status-badge status-pending">Pending</span>
+                              <% } else if (booking.status === 'Cancelled') { %>
+                                <span class="booking-status-badge status-completed">Completed</span>
+                              <% } %>
+                            </div>
+                          </div>
+
+                          <!-- Booking Details -->
+                          <div class="col-md-8">
+                            <div class="booking-card-content">
+                              <!-- Car Name & Booking ID -->
+                              <h5 class="booking-card-title"><%= booking.carBrand %> <%= booking.carModel %></h5>
+                              <div class="booking-id">Booking #CAR-<%= String(booking.id).padStart(4, '0') %></div>
+
+                              <!-- Booking Details Grid -->
+                              <div class="booking-details-grid">
+                                <!-- Pickup Location & Date -->
+                                <div class="booking-detail-item">
+                                  <div class="booking-detail-label">
+                                    <i class="fas fa-map-marker-alt"></i> Pick-up
+                                  </div>
+                                  <div class="booking-detail-value"><%= booking.pickupLocation %></div>
+                                  <div class="booking-detail-sub"><%= booking.formattedStartDate %></div>
+                                </div>
+
+                                <!-- Drop-off Location & Date -->
+                                <div class="booking-detail-item">
+                                  <div class="booking-detail-label">
+                                    <i class="fas fa-map-marker-alt"></i> Drop-off
+                                  </div>
+                                  <div class="booking-detail-value"><%= booking.dropoffLocation %></div>
+                                  <div class="booking-detail-sub"><%= booking.formattedEndDate %></div>
+                                </div>
+
+                                <!-- Rental Duration Highlight -->
+                                <div class="booking-duration-highlight">
+                                  <span class="duration-days"><%= booking.totalDays %> Days</span>
+                                  <span class="duration-label">Rental Duration</span>
+                                </div>
+                              </div>
+
+                              <!-- Price & Actions -->
+                              <div class="booking-card-footer">
+                                <div class="booking-price-container">
+                                  <div class="booking-price-main">RM<%= booking.totalPrice.toLocaleString() %></div>
+                                  <div class="booking-price-breakdown">
+                                    <span class="price-rate">RM<%= (booking.totalPrice / booking.totalDays).toFixed(2) %></span> × <%= booking.totalDays %> days
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <% if (booking.status === 'Pending') { %>
+                                    <button class="booking-action-btn btn-outline-danger">
+                                      <i class="fas fa-times-circle mr-2"></i>Cancel
+                                    </button>
+                                  <% } else if (booking.status === 'Cancelled') { %>
+                                    <% if (booking.canReview) { %>
+                                      <button class="booking-action-btn btn-primary open-review-modal"
+                                              data-booking-id="<%= booking.id %>"
+                                              data-car-name="<%= booking.carBrand %> <%= booking.carModel %>">
+                                        <i class="fas fa-star mr-2"></i>Write Review
+                                      </button>
+                                    <% } else if (booking.hasReview) { %>
+                                      <button class="booking-action-btn btn-success" disabled>
+                                        <i class="fas fa-check-circle mr-2"></i>Reviewed
+                                      </button>
+                                    <% } %>
+                                  <% } %>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <% }); %>
+                  <% } %>
+                </div>
+
+                <!-- My Reviews Tab -->
+                <div class="tab-pane fade" id="v-pills-reviews" role="tabpanel">
+                  <div class="account-section-header">
+                    <h3>My Reviews</h3>
+                  </div>
+
+                  <% if (reviews.length === 0) { %>
+                    <div class="booking-empty-state">
+                      <div class="booking-empty-icon">
+                        <i class="fas fa-star-half-alt"></i>
+                      </div>
+                      <h4 class="booking-empty-title">No Reviews Yet</h4>
+                      <p class="booking-empty-text">Complete a booking to leave a review and share your experience.</p>
+                    </div>
+                  <% } else { %>
+                    <div class="review-container">
+                      <% reviews.forEach(review => { %>
+                        <div class="review-item">
+                          <div class="review-header">
+                            <h5 class="review-car-name"><%= review.carName %></h5>
+                            <div class="review-rating">
+                              <% for(let i = 1; i <= 5; i++) { %>
+                                <% if (i <= review.rating) { %>
+                                  <i class="fas fa-star"></i>
+                                <% } else { %>
+                                  <i class="far fa-star"></i>
+                                <% } %>
+                              <% } %>
+                            </div>
+                          </div>
+                          <div class="review-date">
+                            <i class="far fa-calendar"></i>
+                            <%= review.formattedCreatedAt %>
+                            <% if (review.status === 'pending') { %>
+                              <span class="badge badge-warning ml-2">Pending Approval</span>
+                            <% } else if (review.status === 'approved') { %>
+                              <span class="badge badge-success ml-2">Approved</span>
+                            <% } else if (review.status === 'rejected') { %>
+                              <span class="badge badge-danger ml-2">Rejected</span>
+                            <% } %>
+                          </div>
+                          <p class="review-text"><%= review.comment %></p>
+                        </div>
+                      <% }) %>
+                    </div>
+                  <% } %>
+                </div>
+
+                <!-- Settings Tab -->
+                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel">
+                  <div class="account-section-header">
+                    <h3>Account Settings</h3>
+                  </div>
+
+                  <div class="settings-container">
+                    <form>
+                      <div class="settings-form-group">
+                        <label class="settings-form-label">
+                          <i class="fas fa-user"></i> Full Name
+                        </label>
+                        <input type="text" class="settings-form-control" value="<%= user.firstName %> <%= user.lastName %>" readonly>
+                      </div>
+
+                      <div class="settings-form-group">
+                        <label class="settings-form-label">
+                          <i class="fas fa-envelope"></i> Email Address
+                        </label>
+                        <input type="email" class="settings-form-control" value="<%= user.email %>" readonly>
+                      </div>
+
+                      <div class="settings-form-group">
+                        <label class="settings-form-label">
+                          <i class="fas fa-id-card"></i> User ID
+                        </label>
+                        <input type="text" class="settings-form-control" value="<%= user.userIdFormatted %>" readonly>
+                      </div>
+
+                      <div class="settings-form-group">
+                        <label class="settings-form-label">
+                          <i class="fas fa-shield-alt"></i> Account Type
+                        </label>
+                        <input type="text" class="settings-form-control" value="<%= user.role.charAt(0).toUpperCase() + user.role.slice(1) %>" readonly>
+                      </div>
+
+                      <a href="/auth/signout" class="settings-logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                      </a>
+                    </form>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%- include('./partials/cust-footer') %>
+
+    </div>
+
+    <!-- Review Modal -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reviewModalLabel">
+              <i class="fas fa-star text-warning mr-2"></i>Write Your Review
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="reviewForm">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <input type="hidden" id="reviewBookingId" name="bookingId">
+
+              <!-- Car Name Display -->
+              <div class="mb-3">
+                <p class="text-muted mb-1">You're reviewing:</p>
+                <h6 id="reviewCarName" class="font-weight-bold"></h6>
+              </div>
+
+              <!-- Rating Section -->
+              <div class="form-group">
+                <label class="font-weight-bold">Rating <span class="text-danger">*</span></label>
+                <div class="star-rating-input">
+                  <input type="radio" id="star5" name="rating" value="5" required>
+                  <label for="star5" title="5 stars"><i class="fas fa-star"></i></label>
+
+                  <input type="radio" id="star4" name="rating" value="4">
+                  <label for="star4" title="4 stars"><i class="fas fa-star"></i></label>
+
+                  <input type="radio" id="star3" name="rating" value="3">
+                  <label for="star3" title="3 stars"><i class="fas fa-star"></i></label>
+
+                  <input type="radio" id="star2" name="rating" value="2">
+                  <label for="star2" title="2 stars"><i class="fas fa-star"></i></label>
+
+                  <input type="radio" id="star1" name="rating" value="1">
+                  <label for="star1" title="1 star"><i class="fas fa-star"></i></label>
+                </div>
+                <small class="form-text text-muted">Click on the stars to rate your experience</small>
+              </div>
+
+              <!-- Comment Section -->
+              <div class="form-group">
+                <label for="reviewComment" class="font-weight-bold">Your Review <span class="text-danger">*</span></label>
+                <textarea
+                  class="form-control"
+                  id="reviewComment"
+                  name="comment"
+                  rows="5"
+                  placeholder="Share your experience with this car rental... (minimum 50 characters)"
+                  required
+                  minlength="50"
+                  maxlength="500"></textarea>
+                <div class="d-flex justify-content-between">
+                  <small class="form-text text-muted">Minimum 50 characters, maximum 500 characters</small>
+                  <small id="charCount" class="form-text text-muted">0 / 500</small>
+                </div>
+              </div>
+
+              <!-- Alert Messages -->
+              <div id="reviewAlert" class="alert" style="display: none;" role="alert"></div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="submitReviewBtn">
+              <i class="fas fa-paper-plane mr-2"></i>Submit Review
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('./partials/script') %>
+
+    <!-- Review Modal Script -->
+    <script>
+      $(document).ready(function() {
+        // Character counter
+        $('#reviewComment').on('input', function() {
+          const length = $(this).val().length;
+          $('#charCount').text(length + ' / 500');
+
+          if (length < 50) {
+            $('#charCount').addClass('text-danger').removeClass('text-success');
+          } else {
+            $('#charCount').addClass('text-success').removeClass('text-danger');
+          }
+        });
+
+        // Open modal and populate data
+        $('.open-review-modal').on('click', function() {
+          const bookingId = $(this).data('booking-id');
+          const carName = $(this).data('car-name');
+
+          $('#reviewBookingId').val(bookingId);
+          $('#reviewCarName').text(carName);
+          $('#reviewForm')[0].reset();
+          $('#charCount').text('0 / 500').removeClass('text-danger text-success');
+          $('#reviewAlert').hide();
+
+          $('#reviewModal').modal('show');
+        });
+
+        // Star rating interaction
+        $('.star-rating-input label').on('click', function() {
+          $('.star-rating-input label').removeClass('selected');
+          $(this).addClass('selected');
+          $(this).prevAll('label').addClass('selected');
+        });
+
+        // Submit review
+        $('#submitReviewBtn').on('click', function() {
+          const form = $('#reviewForm')[0];
+
+          // Validate form
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+          }
+
+          const formData = {
+            _csrf: $('input[name="_csrf"]').val(),
+            bookingId: $('#reviewBookingId').val(),
+            rating: $('input[name="rating"]:checked').val(),
+            comment: $('#reviewComment').val()
+          };
+
+          // Disable button
+          $('#submitReviewBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...');
+
+          // Submit via AJAX
+          $.ajax({
+            url: '/review/submit',
+            method: 'POST',
+            data: formData,
+            success: function(response) {
+              if (response.success) {
+                $('#reviewAlert')
+                  .removeClass('alert-danger')
+                  .addClass('alert-success')
+                  .html('<i class="fas fa-check-circle mr-2"></i>' + response.message)
+                  .show();
+
+                setTimeout(function() {
+                  location.reload();
+                }, 2000);
+              }
+            },
+            error: function(xhr) {
+              const response = xhr.responseJSON;
+              $('#reviewAlert')
+                .removeClass('alert-success')
+                .addClass('alert-danger')
+                .html('<i class="fas fa-exclamation-circle mr-2"></i>' + (response?.message || 'Failed to submit review. Please try again.'))
+                .show();
+
+              $('#submitReviewBtn').prop('disabled', false).html('<i class="fas fa-paper-plane mr-2"></i>Submit Review');
+            }
+          });
+        });
+      });
+    </script>
+
+  </body>
+
+</html>

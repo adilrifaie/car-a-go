@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+
+<%- include('./partials/head') %>
+
+  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+
+    <div class="site-wrap">
+
+      <div class="site-mobile-menu site-navbar-target">
+        <div class="site-mobile-menu-header">
+          <div class="site-mobile-menu-close mt-3">
+            <span class="icon-close2 js-menu-toggle"></span>
+          </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+      </div>
+
+      <%- include('./partials/cust-topbar') %>
+
+        <!-- Booking Form Page -->
+        <div class="container" style="margin-top: 100px; margin-bottom: 80px;">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+              <!-- Page Header -->
+              <div class="text-center mb-5">
+                <h2 class="text-primary">Create New Booking</h2>
+                <p class="text-muted">Select a car and fill in your booking details</p>
+              </div>
+
+              <!-- Error/Success Messages -->
+              <% if (errorMessage) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>Error!</strong> <%= errorMessage %>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <% } %>
+
+              <% if (successMessage) { %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <strong>Success!</strong> <%= successMessage %>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <% } %>
+
+              <!-- Booking Form Card -->
+              <div class="card shadow-sm">
+                <div class="card-body p-4">
+                  <form action="/account/booking/create" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                    <!-- Car Selection -->
+                    <div class="mb-4">
+                      <label for="carId" class="form-label">
+                        <i class="fas fa-car mr-1"></i> Select Car <span class="text-danger">*</span>
+                      </label>
+                      <select class="form-control" id="carId" name="carId" required onchange="updateCarDetails()">
+                        <option value="">Choose a car...</option>
+                        <% availableCars.forEach(carItem => { %>
+                          <option
+                            value="<%= carItem.id %>"
+                            data-brand="<%= carItem.brand %>"
+                            data-model="<%= carItem.model %>"
+                            data-category="<%= carItem.category %>"
+                            data-price="<%= carItem.pricePerDay %>"
+                            data-image="<%= carItem.img_url %>"
+                            <%= car && car.id === carItem.id ? 'selected' : '' %>>
+                            <%= carItem.brand %> <%= carItem.model %> - <%= carItem.category %> (RM <%= carItem.pricePerDay %>/day)
+                          </option>
+                        <% }) %>
+                      </select>
+                    </div>
+
+                    <!-- Selected Car Preview (Hidden initially) -->
+                    <div id="carPreview" class="mb-4" style="display: none;">
+                      <div class="card bg-light">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col-md-4">
+                              <img id="carImage" src="" alt="Car" class="img-fluid rounded">
+                            </div>
+                            <div class="col-md-8">
+                              <h5 id="carName" class="mb-1"></h5>
+                              <p id="carCategory" class="text-muted mb-2"></p>
+                              <h6 class="text-primary mb-0">
+                                RM <span id="carPrice"></span> <small class="text-muted">/ day</small>
+                              </h6>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Date Selection -->
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="startDate" class="form-label">
+                          <i class="fas fa-calendar-alt mr-1"></i> Start Date <span class="text-danger">*</span>
+                        </label>
+                        <input
+                          type="date"
+                          class="form-control"
+                          id="startDate"
+                          name="startDate"
+                          value="<%= defaultStartDate %>"
+                          min="<%= defaultStartDate %>"
+                          required
+                          onchange="calculatePrice()">
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+                        <label for="endDate" class="form-label">
+                          <i class="fas fa-calendar-check mr-1"></i> End Date <span class="text-danger">*</span>
+                        </label>
+                        <input
+                          type="date"
+                          class="form-control"
+                          id="endDate"
+                          name="endDate"
+                          value="<%= defaultEndDate %>"
+                          min="<%= defaultStartDate %>"
+                          required
+                          onchange="calculatePrice()">
+                      </div>
+                    </div>
+
+                    <!-- Location Selection -->
+                    <div class="mb-3">
+                      <label for="pickupLocation" class="form-label">
+                        <i class="fas fa-map-marker-alt mr-1"></i> Pickup Location <span class="text-danger">*</span>
+                      </label>
+                      <select class="form-control" id="pickupLocation" name="pickupLocation" required>
+                        <option value="">Select pickup location</option>
+                        <option value="KLIA Terminal 1">KLIA Terminal 1</option>
+                        <option value="KLIA Terminal 2">KLIA Terminal 2</option>
+                        <option value="KL Sentral">KL Sentral</option>
+                        <option value="Bukit Bintang">Bukit Bintang</option>
+                        <option value="Petaling Jaya">Petaling Jaya</option>
+                        <option value="Shah Alam">Shah Alam</option>
+                        <option value="Subang Airport">Subang Airport</option>
+                      </select>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="dropoffLocation" class="form-label">
+                        <i class="fas fa-map-marker-alt mr-1"></i> Dropoff Location <span class="text-danger">*</span>
+                      </label>
+                      <select class="form-control" id="dropoffLocation" name="dropoffLocation" required>
+                        <option value="">Select dropoff location</option>
+                        <option value="KLIA Terminal 1">KLIA Terminal 1</option>
+                        <option value="KLIA Terminal 2">KLIA Terminal 2</option>
+                        <option value="KL Sentral">KL Sentral</option>
+                        <option value="Bukit Bintang">Bukit Bintang</option>
+                        <option value="Petaling Jaya">Petaling Jaya</option>
+                        <option value="Shah Alam">Shah Alam</option>
+                        <option value="Subang Airport">Subang Airport</option>
+                      </select>
+                    </div>
+
+                    <!-- Price Summary -->
+                    <div class="card bg-light mb-4">
+                      <div class="card-body">
+                        <h6 class="mb-3">Booking Summary</h6>
+                        <div class="d-flex justify-content-between mb-2">
+                          <span>Price per day:</span>
+                          <span class="font-weight-bold">RM <span id="displayPrice">0</span></span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                          <span>Number of days:</span>
+                          <span class="font-weight-bold" id="totalDays">7</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                          <h6>Total Price:</h6>
+                          <h5 class="text-primary" id="totalPrice">RM 0</h5>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Terms and Conditions -->
+                    <div class="form-check mb-4">
+                      <input class="form-check-input" type="checkbox" id="termsCheckbox" required>
+                      <label class="form-check-label" for="termsCheckbox">
+                        I agree to the <a href="#" class="text-primary">terms and conditions</a>
+                      </label>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="d-flex justify-content-between">
+                      <a href="/account" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left mr-2"></i>Cancel
+                      </a>
+                      <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-paper-plane mr-2"></i>Submit Booking Request
+                      </button>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      <%- include('./partials/footer') %>
+
+    </div>
+
+    <%- include('./partials/script') %>
+
+    <!-- Price Calculation Script -->
+    <script>
+      let selectedCarPrice = 0;
+
+      // Store car data for quick access
+      const carsData = {
+        <% availableCars.forEach((car, index) => { %>
+          <%= car.id %>: {
+            brand: "<%= car.brand %>",
+            model: "<%= car.model %>",
+            category: "<%= car.category %>",
+            price: <%= car.pricePerDay %>,
+            image: "<%= car.img_url %>"
+          }<%= index < availableCars.length - 1 ? ',' : '' %>
+        <% }) %>
+      };
+
+      function updateCarDetails() {
+        const carSelect = document.getElementById('carId');
+        const carId = carSelect.value;
+
+        if (carId && carsData[carId]) {
+          const car = carsData[carId];
+          selectedCarPrice = car.price;
+
+          // Show car preview
+          document.getElementById('carPreview').style.display = 'block';
+          document.getElementById('carImage').src = car.image;
+          document.getElementById('carName').textContent = car.brand + ' ' + car.model;
+          document.getElementById('carCategory').textContent = car.category;
+          document.getElementById('carPrice').textContent = car.price;
+          document.getElementById('displayPrice').textContent = car.price;
+
+          // Recalculate price
+          calculatePrice();
+        } else {
+          // Hide car preview
+          document.getElementById('carPreview').style.display = 'none';
+          selectedCarPrice = 0;
+          document.getElementById('displayPrice').textContent = '0';
+          document.getElementById('totalPrice').textContent = 'RM 0';
+        }
+      }
+
+      function calculateDays(startDate, endDate) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const diffTime = Math.abs(end - start);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays || 1;
+      }
+
+      function calculatePrice() {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+        if (startDate && endDate && selectedCarPrice > 0) {
+          const days = calculateDays(startDate, endDate);
+          const totalPrice = selectedCarPrice * days;
+
+          document.getElementById('totalDays').textContent = days;
+          document.getElementById('totalPrice').textContent = 'RM ' + totalPrice.toLocaleString();
+        }
+      }
+
+      // On page load, if a car is pre-selected, update the details
+      window.addEventListener('DOMContentLoaded', function() {
+        const carSelect = document.getElementById('carId');
+        if (carSelect.value) {
+          updateCarDetails();
+        }
+        calculatePrice();
+      });
+    </script>
+
+  </body>
+
+</html>

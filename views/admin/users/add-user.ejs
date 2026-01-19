@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/header-sidebar') %>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <%- include('../partials/topbar') %>
+
+                <!-- Content Row -->
+                <div class="container-fluid py-4">
+
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h3>Add New User</h3>
+                        <a href="/admin/users/list" class="text-decoration-none text-secondary">
+                            <i class="fa-solid fa-arrow-left me-2"></i> Back to Users
+                        </a>
+                    </div>
+
+                    <form action="/admin/users/add" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <div class="row g-4">
+
+                            <div class="col-lg-8">
+                                <div class="card-custom">
+                                    <h5><i class="fa-solid fa-user me-2 text-primary"></i> User Information</h5>
+                                    <hr style="border-color: #f1f3f5; margin-bottom: 25px;">
+                                        <div class="row g-3">
+                                            <div class="form-group col-md-6">
+                                                <label for="firstName">First Name</label>
+                                                <input type="text" class="form-control" id="firstName" name="firstName"
+                                                    placeholder="e.g. Ahmad" required>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="lastName">Last Name</label>
+                                                <input type="text" class="form-control" id="lastName" name="lastName"
+                                                    placeholder="e.g. Abdullah" required>
+                                            </div>
+
+                                            <div class="form-group col-md-12">
+                                                <label for="email">Email Address</label>
+                                                <input type="email" class="form-control" id="email" name="email"
+                                                    placeholder="e.g. ahmad@example.com" required>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="password">Password</label>
+                                                <input type="password" class="form-control" id="password" name="password"
+                                                    placeholder="Enter secure password" required>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="role">Role</label>
+                                                <select class="form-control" id="role" name="role" required>
+                                                    <option selected disabled>Select Role...</option>
+                                                    <option value="admin">Admin</option>
+                                                    <option value="staff">Staff</option>
+                                                    <option value="customer">Customer</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-12 mt-5 d-flex justify-content-end">
+                                                <a href="/admin/users/list" type="button" class="btn btn-secondary-custom">Cancel</a>
+                                                <button type="submit" class="btn btn-primary-custom">
+                                                    <i class="fa-solid fa-plus me-2"></i> Add User
+                                                </button>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="card-custom">
+                                    <h5><i class="fa-solid fa-shield-halved me-2 text-primary"></i> User Access
+                                    </h5>
+                                    <hr style="border-color: #f1f3f5; margin-bottom: 25px;">
+
+                                    <div class="alert alert-info" role="alert">
+                                        <i class="fa-solid fa-circle-info me-2"></i>
+                                        <strong>Role Permissions:</strong>
+                                    </div>
+
+                                    <ul class="list-unstyled">
+                                        <li class="mb-3">
+                                            <strong><i class="fa-solid fa-user-shield text-danger me-2"></i> Admin</strong>
+                                            <p class="text-muted small mb-0">Full system access and management</p>
+                                        </li>
+                                        <li class="mb-3">
+                                            <strong><i class="fa-solid fa-user-tie text-warning me-2"></i> Staff</strong>
+                                            <p class="text-muted small mb-0">Manage bookings and cars</p>
+                                        </li>
+                                        <li class="mb-3">
+                                            <strong><i class="fa-solid fa-user text-success me-2"></i> Customer</strong>
+                                            <p class="text-muted small mb-0">Browse and rent vehicles</p>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <!-- End of Main Content -->
+                <%- include('../partials/footer') %>
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <%- include('../partials/scripts') %>
+
+        </body>
+
+</html>

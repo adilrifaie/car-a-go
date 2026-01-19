@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title><%= title %></title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/admin-assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/admin-assets/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary" style="background-image: url('/customer-assets/images/hero_1.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
+
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row justify-content-center">
+                            <div class="col-lg-10 col-md-12">
+                                <div class="p-5">
+                                    <!-- Back to Home Link -->
+                                    <div class="mb-3">
+                                        <a href="/" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-home mr-1"></i> Back to Home
+                                        </a>
+                                    </div>
+
+                                    <!-- Registration Title -->
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4"><%= contentTitle %></h1>
+                                    </div>
+
+                                    <!-- Error Alert Banner -->
+                                    <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                            <strong>Error!</strong> <%= errorMessage %>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    <% } %>
+
+                                    <!-- Success Alert Banner -->
+                                    <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <i class="fas fa-check-circle"></i>
+                                            <strong>Success!</strong> <%= successMessage %>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    <% } %>
+
+                                    <!-- Registration Form -->
+                                    <form method="post" class="user" action="/auth/register">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                                        <!-- First Name & Last Name -->
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <input type="text"
+                                                       class="form-control form-control-user"
+                                                       name="firstName"
+                                                       placeholder="First Name"
+                                                       required>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="text"
+                                                       class="form-control form-control-user"
+                                                       name="lastName"
+                                                       placeholder="Last Name"
+                                                       required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Email -->
+                                        <div class="form-group">
+                                            <input type="email"
+                                                   class="form-control form-control-user"
+                                                   name="email"
+                                                   placeholder="Email Address"
+                                                   required>
+                                        </div>
+
+                                        <!-- Password & Confirm Password -->
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <input type="password"
+                                                       class="form-control form-control-user"
+                                                       name="password"
+                                                       placeholder="Password"
+                                                       required>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="password"
+                                                       class="form-control form-control-user"
+                                                       name="confirmPassword"
+                                                       placeholder="Confirm Password"
+                                                       required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Password Requirements Note -->
+                                        <div class="mb-3">
+                                            <small class="text-muted">
+                                                <i class="fas fa-info-circle"></i> Password must be at least 6 characters long
+                                            </small>
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            <i class="fas fa-user-plus mr-2"></i> Register Account
+                                        </button>
+
+                                    </form>
+
+                                    <hr>
+
+                                    <!-- Links -->
+                                    <div class="text-center">
+                                        <a class="small" href="/auth/login">Already have an account? Login!</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/admin-assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/admin-assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/admin-assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="/admin-assets/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

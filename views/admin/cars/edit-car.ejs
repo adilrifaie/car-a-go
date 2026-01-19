@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/header-sidebar') %>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <%- include('../partials/topbar') %>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">
+                            <%= title %>
+                        </h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+                        
+                        <div class="container-fluid py-4">
+
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h3><%= title %></h3>
+                                <a href="/admin/cars/list" class="text-decoration-none text-secondary">
+                                    <i class="fa-solid fa-arrow-left me-2"></i> Back to List
+                                </a>
+                            </div>
+
+                            <div class="row g-4">
+
+                                <div class="col-lg-8">
+                                    <div class="card-custom">
+                                        <h5><i class="fa-solid fa-pen-to-square me-2 text-primary"></i> Car Details</h5>
+                                        <hr style="border-color: #f1f3f5; margin-bottom: 25px;">
+
+                                        <form action="/admin/cars/edit/<%= oldData.id %>" method="POST" enctype="multipart/form-data">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label for="brand">Brand</label>
+                                                    <input type="text" class="form-control" id="brand" name="brand"
+                                                        value="<%= oldData.brand %>" required>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="model">Model</label>
+                                                    <input type="text" class="form-control" id="model" name="model"
+                                                        value="<%= oldData.model %>" required>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="year">Year</label>
+                                                    <input type="number" class="form-control" id="year" name="year"
+                                                        value="<%= oldData.year %>" min="1900" max="2100" required>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="category">Category</label>
+                                                    <select class="form-control" id="category" name="category">
+                                                        <option value="SUV" <%= oldData.category === 'SUV' ? 'selected' : '' %>>SUV</option>
+                                                        <option value="Sedan" <%= oldData.category === 'Sedan' ? 'selected' : '' %>>Sedan</option>
+                                                        <option value="Compact" <%= oldData.category === 'Compact' ? 'selected' : '' %>>Compact</option>
+                                                        <option value="MPV" <%= oldData.category === 'MPV' ? 'selected' : '' %>>MPV</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="price">Price Per Day</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">RM</span>
+                                                        <input type="number" class="form-control" id="price" name="pricePerDay"
+                                                            value="<%= oldData.pricePerDay %>" step="0.01" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="status" class="d-block">Status</label>
+                                                    <select name="status" id="status" class="form-control" required>
+                                                        <option value="Available" <%= oldData.status === 'Available' ? 'selected' : '' %>>Available</option>
+                                                        <option value="Rented" <%= oldData.status === 'Rented' ? 'selected' : '' %>>Rented</option>
+                                                        <option value="Maintenance" <%= oldData.status === 'Maintenance' ? 'selected' : '' %>>Maintenance</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-12 mt-5 d-flex justify-content-end">
+                                                    <a href="/admin/cars/list" type="button" class="btn btn-secondary-custom">Cancel</a>
+                                                    <button type="submit" class="btn btn-primary-custom">Update</button>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="card-custom">
+                                        <h5><i class="fa-solid fa-images me-2 text-primary"></i> Car Images</h5>
+                                        <hr style="border-color: #f1f3f5; margin-bottom: 25px;">
+
+                                        <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+                                            <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                                            <p class="upload-text">Click to upload or drag image here</p>
+                                            <p class="upload-subtext">JPG, PNG, WEBP, AVIF up to 5MB</p>
+                                            <input type="file" id="fileInput" name="carImage" accept="image/*" hidden>
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <label>Current Images</label>
+                                            <div class="image-preview-container">
+                                                <div class="preview-item">
+                                                    <img src="<%= oldData.img_url %>" alt="Car">
+                                                    <button class="btn-remove-img"><i
+                                                            class="fa-solid fa-xmark"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="alert alert-light mt-4 mb-0 border" role="alert"
+                                            style="font-size: 0.85rem; color: #8898aa;">
+                                            <i class="fa-solid fa-circle-info me-1"></i>
+                                            Upload at least 3 photos (Front, Back, Interior) for better rental rates.
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <!-- Content Row -->
+
+                    <!-- /.container-fluid -->
+                </div>
+        </div>
+        <!-- End of Main Content -->
+        <%- include('../partials/footer') %>
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <%- include('../partials/scripts') %>
+
+        <!-- Image Preview Script -->
+        <script>
+            document.getElementById('carImages').addEventListener('change', function (e) {
+                const preview = document.getElementById('imagePreview');
+                preview.innerHTML = '';
+                const files = e.target.files;
+
+                if (files.length > 0) {
+                    Array.from(files).forEach(file => {
+                        if (file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = function (event) {
+                                const img = document.createElement('img');
+                                img.src = event.target.result;
+                                img.className = 'img-thumbnail mb-2';
+                                img.style.maxWidth = '100%';
+                                img.style.height = 'auto';
+                                preview.appendChild(img);
+                            }
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                }
+            });
+        </script>
+
+        </body>
+
+</html>

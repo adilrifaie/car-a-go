@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/header-sidebar') %>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <%- include('../partials/topbar') %>
+
+                <!-- Page Content -->
+                <div class="container-fluid py-4">
+
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h3>Add New Booking</h3>
+                        <a href="/admin/bookings/list" class="text-decoration-none text-secondary">
+                            <i class="fa-solid fa-arrow-left me-2"></i> Back to Bookings
+                        </a>
+                    </div>
+
+                    <form action="/admin/bookings/add" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <div class="row g-4">
+
+                            <div class="col-lg-8">
+                                <div class="card-custom">
+                                    <h5><i class="fa-solid fa-calendar-check me-2 text-primary"></i> Booking Information</h5>
+                                    <hr style="border-color: #f1f3f5; margin-bottom: 25px;">
+                                        <div class="row g-3">
+                                            <div class="form-group col-md-6">
+                                                <label for="carId">Select Car</label>
+                                                <select class="form-control" id="carId" name="carId" required>
+                                                    <option value="" selected disabled>Choose a car...</option>
+                                                    <% cars.forEach(car => { %>
+                                                        <option value="<%= car.id %>" data-price="<%= car.pricePerDay %>">
+                                                            <%= car.brand %> <%= car.model %> (<%= car.category %>) - RM<%= car.pricePerDay %>/day
+                                                        </option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="userId">Select Customer</label>
+                                                <select class="form-control" id="userId" name="userId" required>
+                                                    <option value="" selected disabled>Choose a customer...</option>
+                                                    <% users.forEach(user => { %>
+                                                        <option value="<%= user.id %>">
+                                                            <%= user.firstName %> <%= user.lastName %> (<%= user.role %>)
+                                                        </option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="startDate">Start Date</label>
+                                                <input type="date" class="form-control" id="startDate" name="startDate" required>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="endDate">End Date</label>
+                                                <input type="date" class="form-control" id="endDate" name="endDate" required>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="status">Booking Status</label>
+                                                <select class="form-control" id="status" name="status" required>
+                                                    <option value="Pending">Pending</option>
+                                                    <option value="Approved" selected>Approved</option>
+                                                    <option value="Cancelled">Cancelled</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="estimatedPrice">Estimated Total Price</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">RM</span>
+                                                    <input type="text" class="form-control" id="estimatedPrice"
+                                                        placeholder="Select dates to calculate" readonly>
+                                                </div>
+                                                <small class="form-text text-muted">Price will be calculated automatically</small>
+                                            </div>
+
+                                            <div class="form-group col-12 mt-5 d-flex justify-content-end">
+                                                <a href="/admin/bookings/list" type="button" class="btn btn-secondary-custom">Cancel</a>
+                                                <button type="submit" class="btn btn-primary-custom">
+                                                    <i class="fa-solid fa-plus me-2"></i> Create Booking
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="card-custom">
+                                    <h5><i class="fa-solid fa-info-circle me-2 text-primary"></i> Booking Details
+                                    </h5>
+                                    <hr style="border-color: #f1f3f5; margin-bottom: 25px;">
+
+                                    <div class="booking-summary">
+                                        <div class="mb-3">
+                                            <p class="text-muted small mb-1">Selected Car</p>
+                                            <h6 id="selectedCar">Not selected</h6>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <p class="text-muted small mb-1">Selected Customer</p>
+                                            <h6 id="selectedCustomer">Not selected</h6>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <p class="text-muted small mb-1">Rental Duration</p>
+                                            <h6 id="duration">-</h6>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <p class="text-muted small mb-1">Price Per Day</p>
+                                            <h6 id="pricePerDay">RM -</h6>
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="mb-3">
+                                            <p class="text-muted small mb-1">Total Amount</p>
+                                            <h4 class="text-primary" id="totalAmount">RM 0</h4>
+                                        </div>
+                                    </div>
+
+                                    <div class="alert alert-light mt-4 mb-0 border" role="alert"
+                                        style="font-size: 0.85rem; color: #8898aa;">
+                                        <i class="fa-solid fa-circle-info me-1"></i>
+                                        Make sure the car is available for the selected dates.
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <!-- End of Main Content -->
+                <%- include('../partials/footer') %>
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <%- include('../partials/scripts') %>
+
+    <script>
+        // Calculate price and update summary
+        function calculatePrice() {
+            const carSelect = document.getElementById('carId');
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const estimatedPriceInput = document.getElementById('estimatedPrice');
+            const totalAmountDisplay = document.getElementById('totalAmount');
+            const durationDisplay = document.getElementById('duration');
+            const pricePerDayDisplay = document.getElementById('pricePerDay');
+
+            if (carSelect.value && startDate && endDate) {
+                const selectedOption = carSelect.options[carSelect.selectedIndex];
+                const pricePerDay = parseFloat(selectedOption.getAttribute('data-price'));
+
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                const diffTime = Math.abs(end - start);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays > 0) {
+                    const totalPrice = pricePerDay * diffDays;
+                    estimatedPriceInput.value = totalPrice.toLocaleString();
+                    totalAmountDisplay.textContent = 'RM ' + totalPrice.toLocaleString();
+                    durationDisplay.textContent = diffDays + ' day' + (diffDays > 1 ? 's' : '');
+                    pricePerDayDisplay.textContent = 'RM ' + pricePerDay.toLocaleString();
+                } else {
+                    estimatedPriceInput.value = '0';
+                    totalAmountDisplay.textContent = 'RM 0';
+                    durationDisplay.textContent = '-';
+                }
+            }
+        }
+
+        // Update selected car display
+        document.getElementById('carId').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const carText = selectedOption.textContent.split(' - RM')[0];
+            document.getElementById('selectedCar').textContent = carText;
+            calculatePrice();
+        });
+
+        // Update selected customer display
+        document.getElementById('userId').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const customerText = selectedOption.textContent;
+            document.getElementById('selectedCustomer').textContent = customerText;
+        });
+
+        // Update price when dates change
+        document.getElementById('startDate').addEventListener('change', calculatePrice);
+        document.getElementById('endDate').addEventListener('change', calculatePrice);
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('startDate').setAttribute('min', today);
+        document.getElementById('endDate').setAttribute('min', today);
+    </script>
+
+</body>
+
+</html>

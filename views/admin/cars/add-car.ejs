@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/header-sidebar') %>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <%- include('../partials/topbar') %>
+
+                <!-- Gemini Content Row -->
+                <div class="container-fluid py-4">
+
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h3>Add New Car</h3>
+                        <a href="/admin/cars/list" class="text-decoration-none text-secondary">
+                            <i class="fa-solid fa-arrow-left me-2"></i> Back to Fleet
+                        </a>
+                    </div>
+
+                    <form action="/admin/cars/add" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <div class="row g-4">
+
+                            <div class="col-lg-8">
+                                <div class="card-custom">
+                                    <h5><i class="fa-solid fa-car-side me-2 text-primary"></i> Vehicle Information</h5>
+                                    <hr style="border-color: #f1f3f5; margin-bottom: 25px;">
+                                        <div class="row g-3">
+                                            <div class="form-group col-md-6">
+                                                <label for="brand">Brand</label>
+                                                <input type="text" class="form-control" id="brand" name="brand"
+                                                    placeholder="e.g. Perodua">
+                                            </div>
+                                            
+                                            <div class="form-group col-md-6">
+                                                <label for="model">Model</label>
+                                                <input type="text" class="form-control" id="model" name="model"
+                                                    placeholder="e.g. Ativa">
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="year">Year</label>
+                                                <input type="number" class="form-control" id="year" name="year"
+                                                    placeholder="2023" required>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="category">Category</label>
+                                                <select class="form-control" id="category" name="category">
+                                                    <option selected disabled>Select Type...</option>
+                                                    <option value="Sedan">Sedan</option>
+                                                    <option value="SUV">SUV</option>
+                                                    <option value="MPV">MPV</option>
+                                                    <option value="Compact">Compact</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="price">Price Per Day</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">RM</span>
+                                                    <input type="number" class="form-control" id="price"
+                                                        name="pricePerDay" placeholder="150" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label class="d-block" for="status">Status</label>
+                                                <select name="status" id="status" class="form-control">
+                                                    <option value="Available">Available</option>
+                                                    <option value="Rented">Rented</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-12 mt-5 d-flex justify-content-end">
+                                                <a href="/admin/cars/list" type="button" class="btn btn-secondary-custom">Cancel</a>
+                                                <button type="submit" class="btn btn-primary-custom">
+                                                    <i class="fa-solid fa-plus me-2"></i> Add Car
+                                                </button>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="card-custom">
+                                    <h5><i class="fa-solid fa-cloud-arrow-up me-2 text-primary"></i> Upload Pictures
+                                    </h5>
+                                    <hr style="border-color: #f1f3f5; margin-bottom: 25px;">
+
+                                    <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+                                        <i class="fa-solid fa-images upload-icon"></i>
+                                        <p class="upload-text">Drag and drop photo here</p>
+                                        <p class="upload-subtext">or click to browse from computer</p>
+                                        <p class="upload-subtext mt-3 text-muted" style="font-size: 0.75rem;">Supports
+                                            JPG, PNG, WEBP, AVIF (Max 5MB)</p>
+
+                                        <input type="file" id="fileInput" name="carImage" accept="image/*" hidden>
+                                    </div>
+
+                                    <div id="imagePreviewArea" class="mt-3 text-center">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <!-- End of Main Content -->
+                <%- include('../partials/footer') %>
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <%- include('../partials/scripts') %>
+
+        <!-- Image Preview Script -->
+        <script>
+            document.getElementById('carImages').addEventListener('change', function (e) {
+                const preview = document.getElementById('imagePreview');
+                preview.innerHTML = '';
+                const files = e.target.files;
+
+                if (files.length > 0) {
+                    Array.from(files).forEach(file => {
+                        if (file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = function (event) {
+                                const img = document.createElement('img');
+                                img.src = event.target.result;
+                                img.className = 'img-thumbnail mb-2';
+                                img.style.maxWidth = '100%';
+                                img.style.height = 'auto';
+                                preview.appendChild(img);
+                            }
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                }
+            });
+        </script>
+
+        </body>
+
+</html>

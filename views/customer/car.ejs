@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+
+  <%- include('./partials/head') %>
+
+  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+
+    <div class="site-wrap" id="home-section">
+
+      <div class="site-mobile-menu site-navbar-target">
+        <div class="site-mobile-menu-header">
+          <div class="site-mobile-menu-close mt-3">
+            <span class="icon-close2 js-menu-toggle"></span>
+          </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+      </div>
+
+    <%- include('./partials/topbar') %>
+
+    <div class="ftco-blocks-cover-1">
+      <div class="ftco-cover-1 overlay innerpage" style="background-image: url('/customer-assets/images/emas-7-cars.jpg')">
+        <div class="container">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-lg-6 text-center">
+              <h1>Our For Rent Cars</h1>
+              <p>Browse our diverse fleet of quality vehicles. Find the perfect car for your journey at competitive rates.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section bg-light">
+      <div class="container">
+        <div class="row">
+          <% cars.forEach(car => { %>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="item-1">
+                <a href="/cars/<%= car.id %>"><img src="<%= car.img_url %>" alt="<%= car.brand + ' ' + car.model %>" class="img-fluid"></a>
+                <div class="item-1-contents">
+                  <div class="text-center">
+                  <h3><a href="/cars/<%= car.id %>"><%= car.brand + ' ' + car.model %></a></h3>
+                  <div class="rating">
+                    <span class="icon-star text-warning"></span>
+                    <span class="icon-star text-warning"></span>
+                    <span class="icon-star text-warning"></span>
+                    <span class="icon-star text-warning"></span>
+                    <span class="icon-star text-warning"></span>
+                  </div>
+                  <div class="rent-price"><span>RM<%= car.pricePerDay %>/</span>day</div>
+                  </div>
+                  <ul class="specs">
+                    <li>
+                      <span>Category</span>
+                      <span class="spec"><%= car.category %></span>
+                    </li>
+                    <li>
+                      <span>Year</span>
+                      <span class="spec"><%= car.year %></span>
+                    </li>
+                    <li>
+                      <span>Status</span>
+                      <span class="spec <%= car.status === 'Available' ? 'text-success' : 'text-danger' %>">
+                        <%= car.status === 'Maintenance' ? 'In Shop' : car.status %>
+                      </span>
+                    </li>
+                  </ul>
+                  <div class="d-flex action">
+                    <% if (car.status === 'Available') { %>
+                      <a href="/auth/register" class="btn btn-primary">Rent Now</a>
+                    <% } else { %>
+                      <button class="btn btn-secondary" disabled>Not Available</button>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <% }) %>
+
+          <div class="col-12">
+            <% if (totalPages > 1) { %>
+              <nav class="pagination-container">
+                <ul class="modern-pagination">
+                  <!-- Previous Button -->
+                  <li>
+                    <% if (page > 1) { %>
+                      <a href="?page=<%= page - 1 %>" class="page-link-custom">
+                        <i class="icon-keyboard_arrow_left"></i>
+                      </a>
+                    <% } else { %>
+                      <span class="page-link-custom disabled">
+                        <i class="icon-keyboard_arrow_left"></i>
+                      </span>
+                    <% } %>
+                  </li>
+                  
+                  <!-- Page Numbers -->
+                  <% for (let i = 1; i <= totalPages; i++) { %>
+                    <% if (i === 1 || i === totalPages || (i >= page - 1 && i <= page + 1)) { %>
+                      <li>
+                        <% if (i === page) { %>
+                          <span class="page-link-custom active"><%= i %></span>
+                        <% } else { %>
+                          <a href="?page=<%= i %>" class="page-link-custom"><%= i %></a>
+                        <% } %>
+                      </li>
+                    <% } else if (i === page - 2 || i === page + 2) { %>
+                      <li>
+                        <span class="page-link-custom page-ellipsis">...</span>
+                      </li>
+                    <% } %>
+                  <% } %>
+                  
+                  <!-- Next Button -->
+                  <li>
+                    <% if (page < totalPages) { %>
+                      <a href="?page=<%= page + 1 %>" class="page-link-custom">
+                        <i class="icon-keyboard_arrow_right"></i>
+                      </a>
+                    <% } else { %>
+                      <span class="page-link-custom disabled">
+                        <i class="icon-keyboard_arrow_right"></i>
+                      </span>
+                    <% } %>
+                  </li>
+                </ul>
+              </nav>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('./partials/how-it-work') %>
+    
+    <%- include('./partials/footer') %>
+
+    </div>
+
+    <%- include('./partials/script') %>
+
+  </body>
+
+</html>
