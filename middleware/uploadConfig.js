@@ -50,6 +50,8 @@ const storage = multer.diskStorage({
             uploadPath = path.join(__dirname, '..', 'public', 'uploads', 'cars');
         } else if (file.fieldname === 'featuredImage') {
             uploadPath = path.join(__dirname, '..', 'public', 'uploads', 'blogs');
+        } else if (file.fieldname === 'coverImage' || file.fieldname === 'galleryImage') {
+            uploadPath = path.join(__dirname, '..', 'public', 'uploads', 'galleries');
         } else {
             uploadPath = path.join(__dirname, '..', 'public', 'uploads');
         }

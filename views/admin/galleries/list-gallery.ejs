@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header-sidebar') %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <%- include('../partials/topbar') %>
+            <div class="container-fluid">
+
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Galleries</h1>
+                    <a href="/admin/galleries/add" class="btn btn-sm btn-primary shadow-sm">
+                        <i class="fas fa-plus fa-sm text-white-50"></i> Add Gallery
+                    </a>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">All Galleries</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Cover</th>
+                                        <th>Title</th>
+                                        <th>Images</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% galleries.forEach((gallery, i) => { %>
+                                    <tr>
+                                        <td><%= i + 1 %></td>
+                                        <td>
+                                            <% if (gallery.coverImage) { %>
+                                                <img src="<%= gallery.coverImage %>" width="60" height="45" style="object-fit:cover;border-radius:4px;">
+                                            <% } else { %>
+                                                <span class="text-muted">—</span>
+                                            <% } %>
+                                        </td>
+                                        <td><%= gallery.title %></td>
+                                        <td><%= gallery.images ? gallery.images.length : 0 %></td>
+                                        <td>
+                                            <span class="badge badge-<%= gallery.status === 'published' ? 'success' : 'secondary' %>">
+                                                <%= gallery.status %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="/admin/galleries/edit/<%= gallery.id %>" class="btn btn-sm btn-warning">Edit</a>
+                                            <form action="/admin/galleries/delete" method="POST" style="display:inline;" onsubmit="return confirm('Delete this gallery?')">
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                <input type="hidden" name="id" value="<%= gallery.id %>">
+                                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                    <% if (galleries.length === 0) { %>
+                                    <tr><td colspan="6" class="text-center text-muted">No galleries yet.</td></tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <%- include('../partials/footer') %>
+    </div>
+</div>
+
+<a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+<%- include('../partials/scripts') %>
+</body>
+</html>

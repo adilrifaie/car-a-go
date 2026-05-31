@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+  <%- include('./partials/head') %>
+
+  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+
+    <div class="site-wrap" id="home-section">
+
+      <div class="site-mobile-menu site-navbar-target">
+        <div class="site-mobile-menu-header">
+          <div class="site-mobile-menu-close mt-3">
+            <span class="icon-close2 js-menu-toggle"></span>
+          </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+      </div>
+
+      <%- include('./partials/topbar') %>
+
+      <div class="ftco-blocks-cover-1">
+        <div class="ftco-cover-1 overlay innerpage" style="background-image: url('<%= gallery.coverImage || "/customer-assets/images/hero_2.jpg" %>')">
+          <div class="container">
+            <div class="row align-items-center justify-content-center">
+              <div class="col-lg-6 text-center">
+                <h1><%= gallery.title %></h1>
+                <% if (gallery.description) { %>
+                  <p><%= gallery.description %></p>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="site-section">
+        <div class="container">
+          <div class="mb-4">
+            <a href="/gallery" class="btn btn-sm btn-outline-secondary">
+              <i class="fas fa-arrow-left"></i> Back to Galleries
+            </a>
+          </div>
+
+          <div class="row">
+            <% if (gallery.images.length === 0) { %>
+              <div class="col-12 text-center py-5">
+                <p class="text-muted">No images in this gallery yet.</p>
+              </div>
+            <% } %>
+            <% gallery.images.forEach(img => { %>
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card shadow-sm">
+                <a href="<%= img.img_url %>" data-fancybox="gallery" data-caption="<%= img.caption || '' %>">
+                  <img src="<%= img.img_url %>" class="card-img-top" style="height:220px;object-fit:cover;" alt="<%= img.caption || gallery.title %>">
+                </a>
+                <% if (img.caption) { %>
+                  <div class="card-body p-2">
+                    <p class="small text-muted mb-0"><%= img.caption %></p>
+                  </div>
+                <% } %>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <%- include('./partials/footer') %>
+
+    </div>
+
+    <%- include('./partials/script') %>
+
+  </body>
+</html>

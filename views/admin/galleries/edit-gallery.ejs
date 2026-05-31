@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header-sidebar') %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <%- include('../partials/topbar') %>
+            <div class="container-fluid">
+
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Edit Gallery</h1>
+                    <a href="/admin/galleries" class="btn btn-sm btn-secondary shadow-sm">
+                        <i class="fas fa-arrow-left fa-sm"></i> Back
+                    </a>
+                </div>
+
+                <!-- Edit gallery details -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Gallery Details</h6>
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/galleries/edit/<%= gallery.id %>" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                            <div class="form-group">
+                                <label>Title <span class="text-danger">*</span></label>
+                                <input type="text" name="title" class="form-control" value="<%= gallery.title %>" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea name="description" class="form-control" rows="3"><%= gallery.description || '' %></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Cover Image</label>
+                                <% if (gallery.coverImage) { %>
+                                    <div class="mb-2">
+                                        <img src="<%= gallery.coverImage %>" height="80" style="border-radius:4px;">
+                                        <small class="d-block text-muted">Upload a new file to replace</small>
+                                    </div>
+                                <% } %>
+                                <input type="file" name="coverImage" class="form-control-file" accept="image/*">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select name="status" class="form-control">
+                                    <option value="draft" <%= gallery.status === 'draft' ? 'selected' : '' %>>Draft</option>
+                                    <option value="published" <%= gallery.status === 'published' ? 'selected' : '' %>>Published</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Add image to gallery -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-success">Add Image</h6>
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/galleries/image/add" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <input type="hidden" name="gallery_id" value="<%= gallery.id %>">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Image <span class="text-danger">*</span></label>
+                                    <input type="file" name="galleryImage" class="form-control-file" accept="image/*" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Caption</label>
+                                    <input type="text" name="caption" class="form-control" placeholder="Optional caption">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">Upload Image</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Gallery images -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Images (<%= gallery.images.length %>)</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <% gallery.images.forEach(img => { %>
+                            <div class="col-md-3 mb-3">
+                                <div class="card">
+                                    <img src="<%= img.img_url %>" class="card-img-top" style="height:150px;object-fit:cover;">
+                                    <div class="card-body p-2">
+                                        <p class="small text-muted mb-1"><%= img.caption || 'No caption' %></p>
+                                        <form action="/admin/galleries/image/delete" method="POST" onsubmit="return confirm('Remove this image?')">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <input type="hidden" name="id" value="<%= img.id %>">
+                                            <button type="submit" class="btn btn-danger btn-sm btn-block">Remove</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+                            <% if (gallery.images.length === 0) { %>
+                            <div class="col-12 text-center text-muted">No images yet. Upload one above.</div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <%- include('../partials/footer') %>
+    </div>
+</div>
+
+<a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+<%- include('../partials/scripts') %>
+</body>
+</html>

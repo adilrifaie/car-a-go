@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header-sidebar') %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <%- include('../partials/topbar') %>
+            <div class="container-fluid">
+
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Add Gallery</h1>
+                    <a href="/admin/galleries" class="btn btn-sm btn-secondary shadow-sm">
+                        <i class="fas fa-arrow-left fa-sm"></i> Back
+                    </a>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <form action="/admin/galleries/add" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                            <div class="form-group">
+                                <label>Title <span class="text-danger">*</span></label>
+                                <input type="text" name="title" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea name="description" class="form-control" rows="3"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Cover Image</label>
+                                <input type="file" name="coverImage" class="form-control-file" accept="image/*">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select name="status" class="form-control">
+                                    <option value="draft">Draft</option>
+                                    <option value="published">Published</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Create Gallery</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <%- include('../partials/footer') %>
+    </div>
+</div>
+
+<a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+<%- include('../partials/scripts') %>
+</body>
+</html>
