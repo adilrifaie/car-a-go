@@ -1,10 +1,14 @@
+require('dotenv').config();
 const express = require('express');
+const http = require('http');
+const { Server: SocketIOServer } = require('socket.io');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const sessionConfig = require('./middleware/sessionConfig');
 const csurf = require('csurf');
 const locals = require('./middleware/locals');
+const visitorTracker = require('./middleware/visitorTracker');
 
 const db = require('./database/config');
 const User = require('./models/Users');
@@ -15,6 +19,9 @@ const Booking = require('./models/Bookings');
 const Review = require('./models/Review');
 const Blog = require('./models/Blogs');
 const RememberToken = require('./models/RememberToken');
+const VisitorLog = require('./models/VisitorLog');
+const Gallery = require('./models/Gallery');
+const GalleryImage = require('./models/GalleryImage');
 
 // Admin routes
 const adminRoutes = require('./routers/admin/admin');
@@ -23,6 +30,7 @@ const bookingAdminRoutes = require('./routers/admin/booking');
 const blogAdminRoutes = require('./routers/admin/blog');
 const userAdminRoutes = require('./routers/admin/user');
 const reviewAdminRoutes = require('./routers/admin/review');
+const galleryAdminRoutes = require('./routers/admin/gallery');
 
 // Customer routes
 const homeRoutes = require('./routers/customer/home');
@@ -32,6 +40,7 @@ const aboutRoutes = require('./routers/customer/about');
 const blogRoutes = require('./routers/customer/blog');
 const accountRoutes = require('./routers/customer/account');
 const reviewRoutes = require('./routers/customer/review');
+const galleryRoutes = require('./routers/customer/gallery');
 
 // Auth routes
 const authRoutes = require('./routers/auth/auth');
@@ -68,6 +77,7 @@ app.use((req, res, next) => {
     csurf()(req, res, next);
 });
 app.use(locals); // Middleware to set local variables for views
+app.use(visitorTracker);
 
 // Route setup for Admin and Customer
 app.use('/admin', adminRoutes);
@@ -76,6 +86,7 @@ app.use('/admin/bookings', bookingAdminRoutes);
 app.use('/admin/blogs', blogAdminRoutes);
 app.use('/admin/users', userAdminRoutes);
 app.use('/admin/reviews', reviewAdminRoutes);
+app.use('/admin/galleries', galleryAdminRoutes);
 
 app.use('/', homeRoutes);
 app.use('/cars', carRoutes);
@@ -84,6 +95,7 @@ app.use('/about', aboutRoutes);
 app.use('/blog', blogRoutes);
 app.use('/account', accountRoutes);
 app.use('/review', reviewRoutes);
+app.use('/gallery', galleryRoutes);
 
 // Auth routes
 app.use('/auth', authRoutes);
@@ -179,6 +191,10 @@ RememberToken.belongsTo(User, {
     as: 'user'
 });
 
+// Gallery ↔ GalleryImage (One-to-Many)
+Gallery.hasMany(GalleryImage, { foreignKey: 'gallery_id', as: 'images' });
+GalleryImage.belongsTo(Gallery, { foreignKey: 'gallery_id', as: 'gallery' });
+
 console.log('✓ Model relationships defined');
 
 // Sync database
@@ -228,6 +244,23 @@ app.use((err, req, res, next) => {
     res.status(500).send('Internal Server Error');
 });
 
-app.listen(1620, () => {
+const httpServer = http.createServer(app);
+const io = new SocketIOServer(httpServer);
+
+let onlineUsers = 0;
+
+io.on('connection', (socket) => {
+    onlineUsers++;
+    io.emit('onlineCount', onlineUsers);
+    socket.on('disconnect', () => {
+        onlineUsers--;
+        io.emit('onlineCount', onlineUsers);
+    });
+});
+
+// Make io accessible to controllers if needed
+app.set('io', io);
+
+httpServer.listen(1620, () => {
     console.log('Server is running on port 1620');
 });
