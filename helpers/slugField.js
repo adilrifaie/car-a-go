@@ -10,6 +10,7 @@ function generateSlug(title) {
         lower: true,
         strict: true,
         trim: true,
+        locale: 'tr',
         remove: /[*+~.()'"!:@?&]/g
     });
 }
