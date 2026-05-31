@@ -1,101 +1,66 @@
-# Carago
+# CaraGo 🚗
 
-A car rental web application built with Node.js and Express.
+A full-stack car rental web application where customers can browse, book, and review cars — and admins can manage the entire operation from a dedicated dashboard.
 
-## Features
+## What It Does
 
-**Customers**
-- Browse and search available cars
-- Book cars with date selection
-- Track booking history
-- Submit reviews and ratings
+**For customers:**
+- Browse available cars and filter by category
+- Book a car by selecting pickup dates and location
+- Track booking history and statuses
+- Leave reviews for completed rentals
+- Read articles and guides on the blog
 
-**Admin**
-- Manage car inventory
-- Handle bookings (approve/reject)
-- Moderate reviews
-- Publish blog posts
+**For admins and staff:**
+- Manage car inventory with photo uploads
+- Approve, update, or cancel bookings
+- Moderate customer reviews before they go live
+- Write and publish blog posts
+- Manage user accounts and roles
 
 ## Tech Stack
 
-- **Backend:** Node.js, Express.js
-- **Database:** MySQL with Sequelize ORM
-- **View Engine:** EJS
-- **Auth:** bcrypt, express-session
+| Layer | Technology |
+|---|---|
+| Backend | Node.js + Express.js |
+| Database | MySQL + Sequelize ORM |
+| Frontend | EJS templates + Bootstrap |
+| Authentication | Session-based auth + bcrypt |
+| File Uploads | Multer |
+| Security | CSRF protection, parameterized queries |
 
-## Quick Start
-
-### 1. Clone and Install
+## Getting Started
 
 ```bash
-git clone <your-repo-url>
+# Clone and install
+git clone https://github.com/adilrifaie/car-a-go.git
 cd carago
 npm install
-```
 
-### 2. Configure Environment
+# Set up environment variables
+cp .env.example .env
+# Fill in your DB credentials and session secret
 
-Create `.env` file (use `.env.example` as reference):
-
-```
-DB_HOST=localhost
-DB_USER=your_db_user
-DB_PASSWORD=your_password
-DB_NAME=carago
-DB_PORT=3306
-SESSION_SECRET=your_random_secret_key
-```
-
-### 3. Setup Database
-
-Create a MySQL database named `carago`. Tables are auto-created on first run.
-
-### 4. Run
-
-```bash
-# Development
+# Run in development
 npm run dev
-
-# Production
-npm start
 ```
 
-Server runs at `http://localhost:1620`
+App runs at `http://localhost:1620`
+
+> Database tables are auto-created on first run. Seed data available via `node database/mockData.js`.
 
 ## Project Structure
 
 ```
 carago/
-├── controllers/     # Route handlers
-│   ├── admin/       # Admin features
-│   ├── auth/        # Login, register, logout
-│   └── customer/    # Customer features
-├── models/          # Database models
+├── controllers/     # Business logic (admin, auth, customer)
+├── models/          # Database models via Sequelize
 ├── routers/         # Route definitions
 ├── views/           # EJS templates
-├── public/          # Static files
-├── middleware/      # Auth, session, uploads
+├── middleware/       # Auth guards, CSRF, file uploads
+├── public/          # Static assets and uploaded images
 └── server.js        # Entry point
 ```
-
-## Routes
-
-| Route | Description |
-|-------|-------------|
-| `/` | Home page |
-| `/cars` | Browse cars |
-| `/auth/login` | Login |
-| `/auth/register` | Register |
-| `/account` | Customer dashboard |
-| `/admin` | Admin dashboard |
-
-## Database Models
-
-- **Users** - Customer and admin accounts
-- **Cars** - Vehicle inventory
-- **Bookings** - Rental reservations
-- **Reviews** - Customer feedback
-- **Blogs** - Blog posts
 
 ## License
 
