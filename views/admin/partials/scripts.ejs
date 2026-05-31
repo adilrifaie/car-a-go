@@ -31,3 +31,15 @@
 
 <!-- Custom scripts for all pages-->
     <script src="/admin-assets/js/sb-admin-2.min.js"></script>
+
+<!-- Socket.io: live online user count -->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    (function () {
+        const socket = io();
+        socket.on('onlineCount', function (count) {
+            const el = document.getElementById('online-user-count');
+            if (el) el.textContent = count;
+        });
+    })();
+</script>
