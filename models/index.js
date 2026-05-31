@@ -6,6 +6,9 @@ const Booking = require('./Bookings');
 const Review = require('./Review');
 const Blog = require('./Blogs');
 const RememberToken = require('./RememberToken');
+const VisitorLog = require('./VisitorLog');
+const Gallery = require('./Gallery');
+const GalleryImage = require('./GalleryImage');
 
 module.exports = {
     User,
@@ -15,5 +18,8 @@ module.exports = {
     Booking,
     Review,
     Blog,
-    RememberToken
+    RememberToken,
+    VisitorLog,
+    Gallery,
+    GalleryImage
 };
