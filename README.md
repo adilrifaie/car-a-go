@@ -42,7 +42,7 @@ cp .env.example .env
 # Fill in your DB credentials and session secret
 
 # Run in development
-npm run dev
+npm start
 ```
 
 App runs at `http://localhost:1620`

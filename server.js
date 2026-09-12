@@ -202,6 +202,10 @@ console.log('✓ Model relationships defined');
     try {
         await db.sync();
         console.log('Database synchronized successfully.');
+        
+        // Run database seeding
+        const populate = require('./database/mockData');
+        await populate();
     } catch (error) {
         console.error('Error synchronizing database:', error);
     }
